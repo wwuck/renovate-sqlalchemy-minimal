@@ -1,0 +1,32 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    ":rebaseStalePrs",
+    ":semanticCommits",
+    ":semanticCommitScope(deps)",
+    ":semanticCommitTypeAll(ci)"
+  ],
+  "packageRules": [
+    {
+      "description": "pypi dependency packages",
+      "groupName": "pypi",
+      "matchPackageNames": [
+        "pandas",
+        "SQLAlchemy"
+      ]
+    }
+  ],
+  "regexManagers": [
+    {
+      "datasourceTemplate": "pypi",
+      "description": "Find any python dependecy within tox.ini or noxfile.py file. Anything with '==' is assumed to be a python dependency. Section in square brackets is ignored.",
+      "fileMatch": [
+        "^tox\\.ini$",
+        "^noxfile\\.py$"
+      ],
+      "matchStrings": [
+        "(?<depName>[\\w\\-\\+]*?)(\\[.*\\])?==(?<currentValue>[\\w\\.\\+\\*\\-]*)"
+      ]
+    }
+  ]
+}
